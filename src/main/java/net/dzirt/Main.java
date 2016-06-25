@@ -2,6 +2,7 @@ package net.dzirt;
 
 import net.dzirt.controller.Controller;
 import net.dzirt.view.GameCanvas;
+import net.dzirt.view.StartWindow;
 
 import javax.swing.*;
 
@@ -13,6 +14,13 @@ import javax.swing.*;
 public class Main {
     public static void main(String[] args) {
 
+//        StartWindow startWindow = new StartWindow();
+//        startWindow.init();
+//        startWindow.show();
+
+
+
+
         JFrame gameFrame = new JFrame("Tic-Tac-Toe");
         GameCanvas cnv = new GameCanvas();
 
@@ -20,7 +28,10 @@ public class Main {
         gameFrame.setSize(308,350);
         gameFrame.setLocation(300,300);
         gameFrame.setResizable(false);
+
+        cnv.addMouseListener(cnv.getMouseListener());
         gameFrame.add(cnv);
+
         gameFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         gameFrame.setVisible(true);
 
@@ -28,5 +39,6 @@ public class Main {
         controller.init();
         controller.setGameField(cnv);
         cnv.setController(controller);
+
     }
 }

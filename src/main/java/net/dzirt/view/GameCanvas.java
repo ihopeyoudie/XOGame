@@ -14,7 +14,7 @@ import java.awt.event.MouseListener;
  *
  * @Author Dzirt
  */
-public class GameCanvas extends Canvas implements MouseListener, KeyListener{
+public class GameCanvas extends Canvas implements KeyListener{
     private final int BOX_HEIGHT    = 100;
     private final int BOX_WIDTH     = 100;
     private final int GRID_HEIGHT   = 3;
@@ -43,8 +43,8 @@ public class GameCanvas extends Canvas implements MouseListener, KeyListener{
         drawGrid(g);
         drawXO(g);
         drawTurnInfo(g);
-        this.addMouseListener(this);
-        this.addKeyListener(this);
+//        this.addMouseListener(new MListener());
+//        this.addKeyListener(this);
 //        if(runThread == null){
 //            runThread = new Thread(this);
 //            runThread.start();
@@ -81,16 +81,7 @@ public class GameCanvas extends Canvas implements MouseListener, KeyListener{
         g.drawString("Turn: " + turnInfo, 10, BOX_HEIGHT * GRID_HEIGHT + 15);
     }
 
-    public void mouseClicked(MouseEvent e) {
-//        int x = e.getX()/BOX_WIDTH;
-//        int y = e.getY()/BOX_HEIGHT;
-//        //System.out.println(x  + " : " + y);
-//        if (x < GRID_WIDTH && y < GRID_HEIGHT) {
-//            controller.playerTurn(e.getX() / BOX_WIDTH, e.getY() / BOX_HEIGHT);
-//        }
-        System.out.println(e.getSource() + " - " + e.getClickCount() + " - " +e.getComponent() + " - " +e.getModifiers() + " - " +e.getWhen() + " - " +e.getModifiersEx());
 
-    }
     private void drawWinner(Graphics g, String winner){
         Font font = new Font("Arial", Font.BOLD, 40);
         g.setFont(font);
@@ -100,23 +91,14 @@ public class GameCanvas extends Canvas implements MouseListener, KeyListener{
     public void showWinner(String winner){
         //drawWinner(globalGraphics, winner);
 
-        int n = JOptionPane.showConfirmDialog(this,winner + " WIN!",
-                "One More Time?",
-                JOptionPane.YES_NO_OPTION);
+        if(JOptionPane.showConfirmDialog(this,winner + " WIN!", "One More Time?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+            //System.out.println("Refreshing");
+            controller.init();
+            refresh();
+        }
+        else {
 
-    }
-
-    public void mousePressed(MouseEvent e) {
-
-    }
-    public void mouseReleased(MouseEvent e) {
-
-    }
-    public void mouseEntered(MouseEvent e) {
-
-    }
-    public void mouseExited(MouseEvent e) {
-
+        }
     }
     public void keyTyped(KeyEvent e) {
 
@@ -139,4 +121,35 @@ public class GameCanvas extends Canvas implements MouseListener, KeyListener{
         this.controller = controller;
     }
 
+    private class MListener implements MouseListener{
+
+        public void mouseClicked(MouseEvent e) {
+            //System.out.println(e.getPoint());
+            int x = e.getX()/BOX_WIDTH;
+            int y = e.getY()/BOX_HEIGHT;
+            if (x < GRID_WIDTH && y < GRID_HEIGHT) {
+                controller.playerTurn(e.getX() / BOX_WIDTH, e.getY() / BOX_HEIGHT);
+            }
+        }
+
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        public void mouseExited(MouseEvent e) {
+
+        }
+    }
+
+    public MouseListener getMouseListener(){
+        return new MListener();
+    }
 }

@@ -54,7 +54,7 @@ public class Controller {
             turnCount++;
             xoArray[i] = O_TYPE;
             System.out.println(turnCount + "  Enemy win?  " + checkWin(O_TYPE));
-            if (checkWin(X_TYPE)){
+            if (checkWin(O_TYPE)){
                 gameField.showWinner("Computer");
             }
             //TODO add checkWin method calling
